@@ -9,5 +9,9 @@
     "faviconUrl":"https://github.githubassets.com/favicons/favicon.svg",
     "displayTitle":"Meekdai",
     "singlePage":["about"],
+    "commentLabelColor":"#006b75",
+    "i18n":"CN",
+    "urlMode":"pinyin",
+    "ogImage":"https://cdn.jsdelivr.net/gh/Meekdai/meekdai.github.io/logo64.jpg",
     "GMEEK_VERSION":"last"
 }
