@@ -2,5 +2,12 @@
     "title":"Blog Title",
     "subTitle":"Blog description",
     "avatarUrl":"https://github.githubassets.com/favicons/favicon.svg",
+    "primerCSS":"<link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />",
+    "yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],
+    "exlink":{"music":"https://music.meekdai.com"},
+    "filingNum":"浙ICP备20023628号",
+    "faviconUrl":"https://github.githubassets.com/favicons/favicon.svg",
+    "displayTitle":"Meekdai",
+    "singlePage":["about"],
     "GMEEK_VERSION":"last"
 }
