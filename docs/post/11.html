@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="github-light" data-light-theme="light_tritanopia" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    <script src='https://blog.freeblock.cn/plugins/RonanTheme.js'></script>
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/194184999?s=400&u=c4f50de1d8e28ff0c30eb2f31b51cfb518bda425&v=4">
+<meta name="description" content="拓扑简图
+
+ 
+
+配置前提
+
+1. 需要网络路由可达，保证网络连通性。">
+<meta property="og:title" content="华为AP模式切换-设备作为FTP客户端进行文件传输--IPOP">
+<meta property="og:description" content="拓扑简图
+
+ 
+
+配置前提
+
+1. 需要网络路由可达，保证网络连通性。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://lansha.ruihan.cc/post/11.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/194184999?s=400&u=c4f50de1d8e28ff0c30eb2f31b51cfb518bda425&v=4">
+<title>华为AP模式切换-设备作为FTP客户端进行文件传输--IPOP</title>
+
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">华为AP模式切换-设备作为FTP客户端进行文件传输--IPOP</h1>
+<div class="title-right">
+    <a href="https://lansha.ruihan.cc" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题"style="display:none;">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><p>拓扑简图</p>
+<p>配置前提</p>
+<ol>
+<li>
+<p>需要网络路由可达，保证网络连通性。</p>
+</li>
+<li>
+<p>准备好可以作为FTP服务器的软件（以IPOP为例，软件可网上搜索下载）。</p>
+</li>
+</ol>
+<p>配置思路</p>
+<ol>
+<li>
+<p>在PC上运行FTP软件作为FTP服务器，并设置其目录、用户名和密码。</p>
+</li>
+<li>
+<p>在设备上登录FTP服务器后使用二进制模式上传/下载文件。本文以下载为例进行详细介绍，对于上传则参考后面【知识扩展】中的内容即可。</p>
+</li>
+</ol>
+<p>操作步骤</p>
+<p>一、搭建FTP服务器</p>
+<p>提醒：需要临时关闭一下PC操作系统自带的防火墙（关闭方法可以根据操作系统的版本在网上查询）。</p>
+<p>在PC上运行IPOP软件。如下图步骤所示，依次选择“服务--&gt;FTP"，再点击“Home Dir"参数栏中的“browse”按钮设置一下FTP服务器的目录（应选择所要传输的文件所在的文件夹），然后点击“Start”按钮启动服务。</p>
+<p>最后，按上图中的步骤5（点击“Config”按钮）设置一下FTP的用户名和密码（以设置用户名admin，密码123456为例）。</p>
+<p>二、在设备上登录FTP服务器并使用二进制模式下载文件</p>
+<p>提醒：要在用户视图下执行ftp命令。</p>
+<p> ftp 169.254.1.100                               //169.254.1.100是FTP服务器的IP</p>
+<p>Trying 169.254.1.100 ...</p>
+<p>Press CTRL+K to abort</p>
+<p>Connected to 169.254.1.100.</p>
+<p>220 FTP Server ready.</p>
+<p>User(169.254.1.100:(none)):admin                         //输入FTP登录用户名</p>
+<p>331 Password required for admin.</p>
+<p>Enter password:123456                                         //输入密码（提醒：密码字符不可见，输入完直接按回车）</p>
+<p>230 User admin logged in.</p>
+<p>[HUAWEI-ftp] binary                                             //使用二进制模式传输</p>
+<p>200 Type set to I.</p>
+<p>[HUAWEI-ftp] get test.dat                                     //test.dat为要传输的文件名（含扩展名）</p>
+<p>200 Port command successful.</p>
+<p>150 Opening data connection for test.dat.</p>
+<p>226 File sent ok</p>
+<p>FTP: 159 byte(s) received in 0.113 second(s) 1.40Kbyte(s)/sec.</p>
+<p>Now begins to save file, please wait...</p>
+<p>File has been saved successfully.</p>
+<p>===============================================================================================</p>
+<p>【知识扩展】<br>
+首次登录有密码修改提示如下<br>
+Warning: The default password poses security risks. You are advised to change the user name and password of the AP using the "ap username" command in the WLAN view of the AC. Or you can directly change this device here. Enter the password (plain-text password of 8-128 characters or cipher-text password of 48-188 characters that must contain at least one lowercase letter, one uppercase letter, and one digit): Error: The password length must not be less than 8 and not be more than 128.<br>
+Warning: The default password poses security risks. You are advised to change the user name and password of the AP using the "ap username" command in the WLAN view of the AC. Or you can directly change this device here. Enter the password (plain-text password of 8-128 characters or cipher-text password of 48-188 characters that must contain at least one lowercase letter, one uppercase letter, and one digit): Error: The password length must not be less than 8 and not be more than 128.<br>
+直接输入新密码 然后确认 二次验证就行</p>
+<ol>
+<li>
+<p>如果要将设备上的文件上传到FTP服务器，在FTP客户端视图下使用put命令即可，示例如下：</p>
+<p>[HUAWEI-ftp] put test.dat</p>
+</li>
+<li>
+<p>关于登录设备命令行的方法，可以参考“【WLAN精品库】功能配置篇”中的“设备登录篇”。</p>
+</li>
+<li>
+<p>可以在用户视图下使用dir命令查看设备上存在的文件。</p>
+</li>
+<li>
+<p>常用的“断开与FTP服务器的连接，并退回到用户视图”的命令是bye。</p>
+</li>
+</ol>
+<p>ap-mode-switch fat ftp Fat&amp;CloudAP4050DE-M_V200R019C00SPC918.bin 192.168.100.155 admin admin123</p>
+<p>[Huawei]<br>
+[Huawei]ap-mode-switch fat ftp Fat&amp;CloudAP4050DE-M_V200R019C00SPC918.bin 192.168.100.155 admin admin123<br>
+Warning: The system will reboot and start in fat mode of V200R019C00SPC918. Continue? (y/n)[n]:y<br>
+Warning: Do Not Power-off!<br>
+..............................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................</p>
+<p>Info: system is rebooting ,please wait...</p>
+<p>[Huawei]<br>
+Connection closed by foreign host.</p>
+<p>Disconnected from remote host(192.168.100.191:22) at 12:31:19.</p>
+<p>Type `help' to learn how to use Xshell prompt.<br>
+[c:~]$ ssh 192.168.100.191</p>
+<p>Connecting to 192.168.100.191:22...<br>
+Connection established.<br>
+To escape to local shell, press 'Ctrl+Alt+]</p>
+<p>您好：</p>
+<p>交换机缺省密码：</p>
+<p><a href="https://weiknow.gts.huawei.com/robot/services/a/AFA8BDEE8A4B97BCC5850300C8117830A9F36C889EE3A8F7" rel="nofollow">https://weiknow.gts.huawei.com/robot/services/a/AFA8BDEE8A4B97BCC5850300C8117830A9F36C889EE3A8F7</a></p>
+<p>忘记console口密码：</p>
+<p><a href="https://weiknow.gts.huawei.com/robot/services/a/130DB87ECD7E763F7F5CC9C5490F1EAA5F13A21086581C6D" rel="nofollow">https://weiknow.gts.huawei.com/robot/services/a/130DB87ECD7E763F7F5CC9C5490F1EAA5F13A21086581C6D</a></p>
+<p>加载弱秘钥插件；</p>
+<p><a href="https://weiknow.gts.huawei.com/robot/services/a/AA25B93F05C5D03560ECF9B2A5CA4E99F75B5533147A32C4" rel="nofollow">https://weiknow.gts.huawei.com/robot/services/a/AA25B93F05C5D03560ECF9B2A5CA4E99F75B5533147A32C4</a></p>
+<p>路由器缺省密码：</p>
+<p><a href="https://weiknow.gts.huawei.com/robot/services/a/BE15AE2B5DF2959C9C386724E23D80B414B75EC49D2348B6" rel="nofollow">https://weiknow.gts.huawei.com/robot/services/a/BE15AE2B5DF2959C9C386724E23D80B414B75EC49D2348B6</a></p>
+<p>AC和AP缺省密码：</p>
+<p><a href="https://weiknow.gts.huawei.com/robot/services/a/806D88B13057848D499DA3F4A03E823F8C38E100DF35ABFA" rel="nofollow">https://weiknow.gts.huawei.com/robot/services/a/806D88B13057848D499DA3F4A03E823F8C38E100DF35ABFA</a></p>
+<p>WeiKnow，您的私人技术助理！AI问答加持，一站式解决技术问题：</p>
+<p><a href="https://weiknow.gts.huawei.com/robot/services/a/09563A799CCA143644846919A5C7D8A31CCF16841878B4F7" rel="nofollow">https://weiknow.gts.huawei.com/robot/services/a/09563A799CCA143644846919A5C7D8A31CCF16841878B4F7</a></p></div>
+<div style="font-size:small;margin-top:8px;float:right;">❤️ 转载文章请注明出处，谢谢！❤️</div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://lansha.ruihan.cc">工作经验-分享</a></div>
+<div id="footer2"><span id="filingNum"><a href="https://beian.miit.gov.cn/" target="_blank">台ICP备2024101898号-1</a> • </span>
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if("08/16/2018"!=""){
+    var startSite=new Date("08/16/2018");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'};
+var utterancesLoad=0;
+
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+
+
+
+
+
+
+
+</script>
+<script src='https://blog.freeblock.cn/plugins/ArticleTOC.js'></script><script src='https://blog.freeblock.cn/plugins/lightbox.js'></script><script>document.querySelectorAll('a').forEach(anchor => {const img = anchor.querySelector('img');if (img && img.hasAttribute('data-canonical-src')) {const canonicalSrc = img.getAttribute('data-canonical-src');anchor.setAttribute('href', canonicalSrc);img.setAttribute('src', canonicalSrc);img.removeAttribute('data-canonical-src');}});</script>
+
+</html>
